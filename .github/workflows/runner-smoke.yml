@@ -1,0 +1,27 @@
+name: isolated-runner-smoke
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  hosted-runner-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Confirm runner admission
+        run: |
+          set -euo pipefail
+          echo "Hosted runner assigned"
+          echo "OS=$RUNNER_OS"
+          echo "ARCH=$RUNNER_ARCH"
+          echo "REPOSITORY=$GITHUB_REPOSITORY"
+          echo "SHA=$GITHUB_SHA"
+          echo "UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          test "$GITHUB_REPOSITORY" = "eabadt/sentinel360_test"
+      - name: Verify shell and basic arithmetic
+        run: |
+          set -euo pipefail
+          test "$((7*6))" -eq 42
+          uname -s
