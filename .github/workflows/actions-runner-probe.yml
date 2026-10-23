@@ -1,0 +1,17 @@
+name: actions-runner-probe
+on:
+  push:
+    branches: [diagnostics/actions-runner-20261023]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Runner allocation and basic shell
+        run: |
+          echo "RUNNER_PROBE_PASS"
+          date -u
+          printf 'os=%s\n' "$RUNNER_OS"
